@@ -1,10 +1,10 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-
 public class GBFS {
 
     public static void Search(State initialState){
+        // Comparator to compare states based on GBFS value
         Comparator<State> StateComparator = new Comparator<State>() {
             @Override
             public int compare(State s1, State s2) {
@@ -14,6 +14,7 @@ public class GBFS {
                     return -1 ;
                 }}
         };
+        // Priority queue to store states based on GBFS value
         PriorityQueue<State> Frontier = new PriorityQueue<State>(StateComparator) ;
         Hashtable<String, Boolean> inFrontier = new Hashtable<>();
         Hashtable<String, Boolean> explored = new Hashtable<>();
@@ -27,54 +28,23 @@ public class GBFS {
         while(!Frontier.isEmpty()){
             State tempState = Frontier.poll();
             if( !(explored.containsKey(tempState.hash()))) {
-
-
                 explored.put(tempState.hash(), true);
                 ArrayList<State> children = tempState.successorGBFS();
-
                 if (isGoal(tempState)) {
                     result(tempState);
                     return;
                 }
-
                 for (int i = 0; i < children.size(); i++) {
                     if (!(explored.containsKey(children.get(i).hash()))) {
-
                         Frontier.add(children.get(i));
-
                     }
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+    
     private static boolean isGoal(State state){
+        // Check if all nodes in the graph have colors other than Red and Black
         for (int i = 0; i < state.getGraph().size(); i++) {
             if(state.getGraph().getNode(i).getColor() == Color.Red
                     || state.getGraph().getNode(i).getColor() == Color.Black){
@@ -83,9 +53,7 @@ public class GBFS {
         }
         return true;
     }
-
-
-
+    
     private static void result(State state){
         Stack<State> states = new Stack<State>();
         while (true){
@@ -117,8 +85,4 @@ public class GBFS {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
